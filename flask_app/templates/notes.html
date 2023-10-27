@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='style.css') }}">
+    <script src="https://kit.fontawesome.com/8b69c804b2.js" crossorigin="anonymous"></script>
+    <title>GrassRootCRM</title>
+</head>
+<body>
+    <div class="global-wrapper">
+        <div class="navigation">
+            <div class="branding">
+                <img src="/static/CRMlogo-final.png" alt="Logo">
+                <h1>GrassRootCRM</h1>
+            </div>
+            <div class="links">
+                <a href="/dashboard">Dashboard</a>
+                <a href="/logout" class="logout">Logout</a>
+            </div>
+        </div>
+        <div class="body-wrapper">
+            <div class="sidebar">
+                <h2>Welcome, User</h2>
+                <div class="sidebar_button">
+                    <a href="/">Dashboard</a>
+                </div>
+                <div class="sidebar_button">
+                    <a href="/customers">My Customers</a>
+                </div>
+            </div>
+        </div>
+    </div>
+    <script src="/static/script.js"></script>
+</body>
+</html>

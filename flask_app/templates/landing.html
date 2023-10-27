@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='style.css') }}">
+    <title>GrassRootCRM</title>
+</head>
+<body>
+    <div class="global-wrapper">
+        <div class="navigation">
+            <div class="branding">
+                <img src="/static/CRMlogo-final.png" alt="Logo">
+                <h1>GrassRootCRM</h1>
+            </div>
+            <div class="links">
+                <a href="/login" class="login">Login</a>
+                <a href="/create_user" class="sign-up">Sign Up</a>
+            </div>
+        </div>
+        <div class="billboard">
+            <div class="image-container">
+                <img src="/static/landing.svg" alt="landing" class="full-width-landing">
+            </div>
+            <h3>Welcome to GrassRoot CRM!</h3>
+        </div>
+        <section class="intro">
+            <div class="landing-intro">
+                <h2>GrassRoot CRM:</h2>
+                <h3>Deepen your customer relationships with our reliable CRM solutions.</h3>
+                <p>We provide the firm foundation so you can grow your business to record heights.</p>
+                <button class="get-started">
+                    <a href="/">Get Started</a>
+                </button>
+            </div>
+        </section>
+        <section class="features">
+            <div class="feature-cards">
+                <h4>Report Branch</h4>
+                <a href="/">Learn More</a>
+            </div>
+            <div class="feature-cards">
+                <h4>Sales Branch</h4>
+                <a href="/">Learn More</a>
+            </div>
+            <div class="feature-cards">
+                <h4>Marketing Branch</h4>
+                <a href="/">Learn More</a>
+            </div>
+        </section>
+    </div>
+</body>
+</html>

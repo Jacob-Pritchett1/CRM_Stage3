@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='style.css') }}">
+    <script src="https://kit.fontawesome.com/8b69c804b2.js" crossorigin="anonymous"></script>
+    <title>GrassRootCRM</title>
+</head>
+<body>
+    <div class="global-wrapper">
+        <div class="navigation">
+            <div class="branding">
+                <img src="/static/CRMlogo-final.png" alt="Logo">
+                <h1>GrassRootCRM</h1>
+            </div>
+            <div class="links">
+                <a href="/dashboard">Dashboard</a>
+                <a href="/logout" class="logout">Logout</a>
+            </div>
+        </div>
+        <div class="body-wrapper">
+            <div class="sidebar">
+                <h2>Welcome, User</h2>
+                <div class="sidebar_button">
+                    <a href="/">Dashboard</a>
+                </div>
+                <div class="sidebar_button">
+                    <a href="/customers">My Customers</a>
+                </div>
+            </div>
+            <div class="card-container">
+                <div class="dashboard-card">
+                    <h3>New Customer</h3>
+                    <i class="fa-solid fa-user-pen fa-5x" style="color: #00a82a;"></i>
+                    <a href="/new/company" class="my-customers">New Customer</a>
+                </div>
+                <div class="dashboard-card">
+                    <h3>Existing Customers</h3>
+                    <i class="fa-solid fa-building-user fa-5x"></i>
+                    <a href="/customers" class="my-customers">My Customers</a>
+                </div>
+                <div class="dashboard-card">
+                    <h3>Performance</h3>
+                    <i class="fa-solid fa-chart-simple fa-5x" style="color: #ff961f;"></i>
+                    <a href="/" class="my-customers">Performance</a>
+                </div>
+                <div class="dashboard-card">
+                    <h3>CSV</h3>
+                    <i class="fa-solid fa-chart-simple fa-5x" style="color: #ff961f;"></i>
+                    <a href="/csv" class="read_csv">CSV</a>
+                </div>
+            </div>
+        </div>
+    </div>
+    <script src="/static/script.js"></script>
+</body>
+</html>
