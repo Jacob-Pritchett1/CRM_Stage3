@@ -7,6 +7,16 @@
     <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='style.css') }}">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.0.0/dist/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
     <title>GrassRootCRM</title>
+    <style>
+        @media print {
+            button{
+                display: None;
+            }
+            a{
+                display:None;
+            }
+        }
+    </style>
 </head>
 
 <body>
@@ -17,7 +27,7 @@
                 <h1>GrassRootCRM</h1>
             </div>
             <div class="links">
-                <a hred="/">Dashboard</a>
+                <a href="/">Dashboard</a>
                 <a href="/logout" class="logout">Logout</a>
             </div>
         </div>
@@ -59,6 +69,7 @@
                 </tr>
             </tbody>
         </table>
+        <button onclick="window.print()">Print Report</button>
     </div>
 </body>
 
