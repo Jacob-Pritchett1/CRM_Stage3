@@ -60,7 +60,6 @@ class Company:
         query = """ UPDATE company SET company_name=%(company_name)s, physical_address=%(physical_address)s,
         phone_number = %(phone_number)s WHERE id = %(id)s;"""
         return connectToMySQL(cls.DB).query_db(query, data)
-
     @classmethod
     def delete(cls, id):
         query = "DELETE FROM company WHERE id = %(id)s;"
