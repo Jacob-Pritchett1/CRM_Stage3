@@ -2,6 +2,7 @@ from flask_app import app
 from flask import render_template, redirect, request, session, flash, url_for
 from flask_app.models.user import User
 from flask_app.models.company import Company
+from flask_app.models.notes import Note
 import pandas as pd
 import os
 from flask_bcrypt import Bcrypt
@@ -71,7 +72,6 @@ def create_customer_report():
     else: 
         return redirect('login')
 from flask import make_response
-
 @app.route("/download_csv")
 def download_csv():
     user_id = session.get('user_id')
@@ -86,10 +86,22 @@ def download_csv():
         return response
     else:
         return redirect('/login')
+# @app.route('/csv', methods=['GET', 'POST']) #Route for CSV Upload and POST route for processing CSV
+# def upload_csv():
+#     if 'file' not in request.files:
+#         return "No file part"
+#     file = request.files['file']
+#     if file.filename == '':
+#         return "No selected file"
+#     if file:
+#         filename = os.path.join(app.config['UPLOAD_FOLDER'], file.filename)
+#         file.save(filename)
+#         df = pd.read_csv(filename)
+#         html_table = df.to_html(classes='table table-striped', escape=False, index=False)
+#         return render_template('index.html', html_table=html_table)
 @app.route("/new/company") #This displays a form for adding a company
 def creating_company():
     return render_template("company_creation.html")
-
 @app.route("/new/company/create", methods=['POST']) #Hidden Route
 def company_submission(): #Function for creating a company
     if "user_id" not in session: #If user is not validated via session, they are redirected to login
@@ -114,7 +126,6 @@ def edit_company(id): #Function that will reroute user if not logged in, this wi
         return redirect('/')
     single_company=Company.get_one(id)
     return render_template("edit_post.html", single_company= single_company,id=id)
-
 @app.route('/edit/<int:id>/finalize', methods=["POST"]) #Hidden route for editing the company
 def finalize_edit(id):
     if not Company.validate_post(request.form):
@@ -127,35 +138,40 @@ def finalize_edit(id):
     }
     Company.edit_company(data)
     return redirect('/index')
-
 @app.route('/company/delete/<int:id>') #Route for deleting company
 def delete(id):
     if "user_id" not in session:
         return redirect(url_for('login'))
     Company.delete(id)
     return redirect('/')
-
+@app.route('/notes')
+def user_notes():
+    return render_template("user_notes.html")
+@app.route('/new/note')
+def note_form():
+    company_id = request.args.get("company_id")
+    company_name = request.args.get("company_name")
+    return render_template('notes.html',company_id=company_id,company_name=company_name)
+@app.route("/new/note/create", methods=['POST'])
+def create_note():
+    if not Note.validate_note(request.form):
+        return redirect('/')
+    if "user_id" not in session:
+        return redirect(url_for('login'))
+    company_id = request.form["company_id"]    
+    data = {
+        "note": request.form["note"],
+        "date": request.form["date"],
+        "user_id": session["user_id"],
+        "company_id": company_id
+    }
+    Note.create_note(data)
+    return redirect("/notes")
 
 @app.route('/logout') #Will log the user out
 def logging_out():
     session.clear()
     return redirect('/')
-
-@app.route('/csv', methods=['GET', 'POST']) #Route for CSV Upload and POST route for processing CSV
-def upload_csv():
-    if 'file' not in request.files:
-        return "No file part"
-    file = request.files['file']
-    if file.filename == '':
-        return "No selected file"
-    if file:
-        filename = os.path.join(app.config['UPLOAD_FOLDER'], file.filename)
-        file.save(filename)
-        df = pd.read_csv(filename)
-        html_table = df.to_html(classes='table table-striped', escape=False, index=False)
-        return render_template('index.html', html_table=html_table)
-    
-
 if __name__=="__main__":   # Ensure this file is being run directly and not from a different module    
     app.run(debug=True)    # Run the app in debug mode.
 

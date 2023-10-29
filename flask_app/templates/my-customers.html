@@ -49,6 +49,8 @@
                     <td>{{company.physical_address}}</td>
                     <td>{{company.phone_number}}</td>
                     <td>
+                        <a href="/new/note?company_id={{ company.id }}&company_name={{ company.company_name }}" class="create">Add Note</a>
+                        |
                         <a href="/edit" class="edit">Edit Company</a>
                         |
                         <a href="/delete" class="delete">Delete Company</a>

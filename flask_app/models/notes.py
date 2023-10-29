@@ -4,7 +4,7 @@ from flask_app.models.user import User
 
 
 class Note:
-    DB = "users"
+    DB = "crm_db"
     def __init__(self,data):
         self.id= data['id']
         self.note=data['note']
@@ -14,9 +14,9 @@ class Note:
         self.user_id= None
     @classmethod # Create a new note in the DB
     def create_note(cls, data):
-        query = """ INSERT INTO note(note,data, created_at, updated_at, user_id)
-        VALUES (%(note)s, %(date)s,NOW(), NOW(), %(user_id)s);"""
-        return connectToMySQL('users').query_db(query, data)
+        query = """ INSERT INTO notes (note,date, created_at, updated_at, user_id, company_id)
+        VALUES (%(note)s, %(date)s,NOW(), NOW(), %(user_id)s, %(company_id)s);"""
+        return connectToMySQL('crm_db').query_db(query, data)
     @staticmethod 
     def validate_note(note):
         is_valid=True
@@ -26,28 +26,34 @@ class Note:
         return is_valid
     @classmethod 
     def get_one(cls, id):
-        query = "SELECT * from note WHERE id = %(id)s;"
+        query = "SELECT * from notes WHERE id = %(id)s;"
         results = connectToMySQL(cls.DB).query_db(query, {"id":id})
         one_note = []
         for row in results:
             one_note.append(cls(row))
         return one_note
-
     @classmethod # get all notes
     def get_all_notes(cls):
-        query= "SELECT * from note"
+        query= "SELECT * from notes"
         results = connectToMySQL(cls.DB).query_db(query)
         all_notes = []
         for row in results:
             all_notes.append(cls(row))
         return all_notes
     @classmethod
+    def get_user_notes(cls,user_id):
+        query= "SELECT * from notes WHERE user_id = %s"
+        data = (user_id,)
+        results=connectToMySQL(cls.DB).query_db(query,data)
+        user_notes = [cls(row) for row in results]
+        return user_notes
+    @classmethod
     def edit_note(cls, data):
-        query = """ UPDATE note SET note=%(note)s WHERE id = %(id)s;"""
+        query = """ UPDATE notes SET note=%(note)s WHERE id = %(id)s;"""
         return connectToMySQL(cls.DB).query_db(query, data)
     @classmethod
     def delete(cls, id):
-        query = "DELETE FROM note WHERE id = %(id)s;"
+        query = "DELETE FROM notes WHERE id = %(id)s;"
         data = {"id": id}
         return connectToMySQL(cls.DB).query_db(query,data)
     @classmethod

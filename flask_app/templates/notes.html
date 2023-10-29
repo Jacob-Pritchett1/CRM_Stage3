@@ -29,7 +29,22 @@
                     <a href="/customers">My Customers</a>
                 </div>
             </div>
-        </div>
+            <div class="discussion-board">
+                <form action="/new/note/create" method="post">
+                    {% with messages = get_flashed_messages() %}
+                        {% if messages %}
+                            {% for message in messages %}
+                            <p>{{message}}</p>
+                            {% endfor %}
+                        {% endif %}
+                    {%endwith%}
+                    <label for="text">Add Note:</label>
+                    <input type="note" name="note" value=""/>
+                    <input type="date" name="date" value=""/>
+                    <input type="hidden" name="company_id" value="{{ company_id }}"/>
+                    <input type="Submit" value="Add">
+                </form>
+            </div>
     </div>
     <script src="/static/script.js"></script>
 </body>

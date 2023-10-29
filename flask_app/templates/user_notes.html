@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>GrassRootCRM</title>
+</head>
+<body>
+    <table class="table table-striped">
+        <thead>
+            <tr class="note_view">
+                <th>Note</th>
+                <th>Date Created</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr class="note_table">
+            {% for note in every_post %}
+                <td>{{note.note}}</td>
+                <td>{{note.created_at}}</td>
+                <td><a href="/edit/{{note.id}}">edit</a>
+                <a href="/note/delete/{{note.id}}">delete</a></td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+
+</body>
+</html>
