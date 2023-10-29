@@ -1,5 +1,5 @@
 from flask_app import app
-from flask import render_template, redirect, request, session, flash, url_for
+from flask import render_template, redirect, request, session, flash, url_for,send_file
 from flask_app.models.user import User
 from flask_app.models.company import Company
 import pandas as pd
@@ -68,6 +68,19 @@ def create_customer_report():
     if user_id is not None:
         customers = Company.get_user_companies(user_id)
         return render_template('customer_report.html',customers=customers)
+    else: 
+        return redirect('login')
+@app.route("/download_customer_report")
+def download_customer_report():
+    user_id = session.get('user_id')
+    if user_id is not None:
+        customers = Company.get_user_companies(user_id)
+        myCustomer_report_filename = "myCustomer_report.csv"
+        return send_file(
+            myCustomer_report_filename,
+            as_attachment=True,
+            download_name= "myCustomer_report.csv"
+        )
     else: 
         return redirect('login')
 
