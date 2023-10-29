@@ -1,5 +1,5 @@
 from flask_app import app
-from flask import render_template, redirect, request, session, flash, url_for,send_file
+from flask import render_template, redirect, request, session, flash, url_for
 from flask_app.models.user import User
 from flask_app.models.company import Company
 import pandas as pd
@@ -70,20 +70,22 @@ def create_customer_report():
         return render_template('customer_report.html',customers=customers)
     else: 
         return redirect('login')
-@app.route("/download_customer_report")
-def download_customer_report():
+from flask import make_response
+
+@app.route("/download_csv")
+def download_csv():
     user_id = session.get('user_id')
     if user_id is not None:
-        customers = Company.get_user_companies(user_id)
-        myCustomer_report_filename = "myCustomer_report.csv"
-        return send_file(
-            myCustomer_report_filename,
-            as_attachment=True,
-            download_name= "myCustomer_report.csv"
-        )
-    else: 
-        return redirect('login')
-
+        companies = Company.get_user_companies(user_id)
+        csv_data = "Company Name, Company Details\n"
+        for company in companies:
+            csv_data += f'"{company.company_name}", "{company.physical_address}"\n'
+        response = make_response(csv_data)
+        response.headers['Content-Type'] = 'text/csv'
+        response.headers['Content-Disposition'] = 'attachment; filename=my-customers.csv'
+        return response
+    else:
+        return redirect('/login')
 @app.route("/new/company") #This displays a form for adding a company
 def creating_company():
     return render_template("company_creation.html")
