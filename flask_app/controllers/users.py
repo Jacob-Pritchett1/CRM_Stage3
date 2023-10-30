@@ -159,13 +159,11 @@ def create_note():
     if "user_id" not in session:
         return redirect(url_for('login'))
     company_id = request.form["company_id"]
-    company_user_id = request.form["company_user_id"] 
     data = {
         "note": request.form["note"],
         "date": request.form["date"],
         "user_id": session["user_id"],
         "company_id": company_id,
-        "company_user_id": company_user_id
     }
     Note.create_note(data)
     return redirect("/notes")
