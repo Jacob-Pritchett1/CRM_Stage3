@@ -144,9 +144,12 @@ def delete(id):
         return redirect(url_for('login'))
     Company.delete(id)
     return redirect('/')
-@app.route('/notes')
-def user_notes():
-    return render_template("user_notes.html")
+@app.route('/notes/<int:user_id>')
+def user_notes(user_id):
+    print(user_id)
+    user_notes = {"id": user_id}
+    user= User.users_notes(user_notes)
+    return render_template("user_notes.html", user=user, user_id=user_id, user_notes=user_notes)
 @app.route('/new/note')
 def note_form():
     company_id = request.args.get("company_id")

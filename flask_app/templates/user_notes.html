@@ -15,7 +15,7 @@
         </thead>
         <tbody>
             <tr class="note_table">
-            {% for note in every_post %}
+            {% for note in user.note %}
                 <td>{{note.note}}</td>
                 <td>{{note.created_at}}</td>
                 <td><a href="/edit/{{note.id}}">edit</a>

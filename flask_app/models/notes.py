@@ -58,6 +58,7 @@ class Note:
         return connectToMySQL(cls.DB).query_db(query,data)
     @classmethod
     def users_notes(cls, data):
+        user_id = data["id"]
         query= "SELECT * from user LEFT JOIN note ON note.user_id = user.id WHERE user.id = %(id)s;"
         results= connectToMySQL('users').query_db(query, data)
         print(results)
