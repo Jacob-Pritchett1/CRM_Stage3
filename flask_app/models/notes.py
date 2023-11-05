@@ -59,23 +59,25 @@ class Note:
     @classmethod
     def users_notes(cls, data):
         user_id = data["id"]
-        query= "SELECT * from user LEFT JOIN note ON note.user_id = user.id WHERE user.id = %(id)s;"
-        results= connectToMySQL('users').query_db(query, data)
+        query = "SELECT notes.id, notes.note, notes.date, notes.created_at, notes.updated_at FROM user LEFT JOIN notes ON notes.user_id = user.id WHERE user.id = %(id)s;"
+        results = connectToMySQL('crm_db').query_db(query, data)
         print(results)
-        user_ = User.User(results[0])
+        user_ = User(results[0])
+        notes = []
         for row_from_db in results:
             note_data = {
-            "id": row_from_db['note.id'],
-            "note": row_from_db['note'],
-            "date":row_from_db['date'],
-            "created_at": row_from_db['note.created_at'],
-            "updated_at": row_from_db['note.updated_at']
-        }
-        user_.note.append(cls(note_data))
+                "id": row_from_db['id'],
+                "note": row_from_db['note'],
+                "date": row_from_db['date'],
+                "created_at": row_from_db['created_at'],
+                "updated_at": row_from_db['updated_at']
+            }
+            notes.append(cls(note_data))
+        user_.notes = notes
         return user_
     @classmethod
     def note_users(cls):
-        query= "SELECT * from note LEFT JOIN user ON user.id = user_id;"
+        query= "SELECT * from notes LEFT JOIN user ON user.id = user_id;"
         results= connectToMySQL('users').query_db(query)
         print(results)
         notes = []

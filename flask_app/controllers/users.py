@@ -17,8 +17,12 @@ app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
 def home():
     return render_template('landing.html')
 @app.route('/dashboard') #Only accessed once a user is logged in.
-def dash():
-    return render_template('index.html')
+def dashboard():
+    user_id = session.get('user_id')
+    if user_id is not None:
+        return render_template('index.html', user_id=user_id)
+    else:
+        return redirect('/login')
 @app.route('/login', methods=['GET', 'POST']) #Login Hidden Route
 def login():
     if request.method == 'POST':
@@ -146,10 +150,9 @@ def delete(id):
     return redirect('/')
 @app.route('/notes/<int:user_id>')
 def user_notes(user_id):
-    print(user_id)
     user_notes = {"id": user_id}
-    user= User.users_notes(user_notes)
-    return render_template("user_notes.html", user=user, user_id=user_id, user_notes=user_notes)
+    notes = Note.users_notes(user_notes)
+    return render_template("user_notes.html",notes=notes, user_id=user_id)
 @app.route('/new/note')
 def note_form():
     company_id = request.args.get("company_id")

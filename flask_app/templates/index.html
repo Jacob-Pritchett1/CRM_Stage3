@@ -53,7 +53,7 @@
                 <div class="dashboard-card">
                     <h3>Notes</h3>
                     <i class="fa-solid fa-clipboard fa-5x" style="color: #ff00b3;"></i>
-                    <a href="/notes/{{ user_id }}" class="user_notes">Notes</a>
+                    <a href="{{ url_for('user_notes', user_id=user_id) }}" class="user_notes">Notes</a>
                 </div>
             </div>
         </div>

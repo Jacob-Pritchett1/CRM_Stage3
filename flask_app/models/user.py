@@ -19,7 +19,7 @@ class User:
         self.created_at = data['created_at']
         self.updated_at = data['updated_at']
         self.company = None
-        self.note = None
+        self.notes = []
     @classmethod #save method will create a user in the database
     def save(cls, data):
         query="INSERT INTO user (first_name, last_name, role, email, password) VALUES (%(first_name)s, %(last_name)s,%(role)s, %(email)s, %(password)s);"
