@@ -53,6 +53,33 @@ class User:
             users.append(cls(user))
         return users
     @classmethod
+    def users_notes(cls, user_id):
+        from flask_app.models.notes import Note
+
+        query = """
+        SELECT user.id, user.first_name, user.last_name, user.role, user.email, user.password, user.created_at, user.updated_at, notes.id, notes.note, notes.date, notes.created_at, notes.updated_at
+        FROM user
+        LEFT JOIN notes ON notes.user_id = user.id
+        WHERE user.id = %(user_id)s;
+        """
+        data = {"user_id": user_id}
+
+        results = connectToMySQL('crm_db').query_db(query, data)
+        user = cls(results[0]) if results else None
+        notes = []
+        for row in results:
+            if row['id'] and row['note']:
+                note_data = {
+                    "id": row['id'],
+                    "note": row['note'],
+                    "date": row['date'],
+                    "created_at": row['created_at'],
+                    "updated_at": row['updated_at']
+                }
+                notes.append(Note(note_data))
+        user.notes = notes
+        return user    
+    @classmethod
     def get_email(cls, data):
         query = "SELECT * FROM user WHERE email = %(email)s;"
         result= connectToMySQL("crm_db").query_db(query,data)

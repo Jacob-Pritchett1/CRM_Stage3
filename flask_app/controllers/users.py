@@ -150,9 +150,11 @@ def delete(id):
     return redirect('/')
 @app.route('/notes/<int:user_id>')
 def user_notes(user_id):
-    user_notes = {"id": user_id}
-    notes = Note.users_notes(user_notes)
-    return render_template("user_notes.html",notes=notes, user_id=user_id)
+    user = User.users_notes(user_id)
+    if user:
+        return render_template("user_notes.html", user=user)
+    else:
+        return "User not found", 404
 @app.route('/new/note')
 def note_form():
     company_id = request.args.get("company_id")
